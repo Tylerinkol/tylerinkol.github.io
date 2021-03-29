@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Text Cleaning - Tyler Rinkol&#39;s Website</title>
+    <meta property="og:title" content="Text Cleaning - Tyler Rinkol&#39;s Website">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.0.5 ✓ dplyr 1.0.3 ## ✓ tidyr 1.1.2 ✓ stringr 1.4.0 &amp;hellip;">
+      <meta property="og:description" content="library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.0.5 ✓ dplyr 1.0.3 ## ✓ tidyr 1.1.2 ✓ stringr 1.4.0 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Tyler Rinkol&#39;s Website</a></h1>
+
+<p class="tagline">Tyler Rinkol&#39;s blog posts and projects</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Text Cleaning</h1>
+
+<h3>Tyler Rinkol
+  /  2021-03-29</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+<script src="/post/2021/03/29/text-cleaning/index_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggalt)</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
+##   method                  from   
+##   grid.draw.absoluteGrob  ggplot2
+##   grobHeight.absoluteGrob ggplot2
+##   grobWidth.absoluteGrob  ggplot2
+##   grobX.absoluteGrob      ggplot2
+##   grobY.absoluteGrob      ggplot2</code></pre>
+<p>Hey guys! Today I wanted to find out what was the worst college football games of the season. In order to do this project, I had to seperate columns in order to finally mutate the data. Let’s go check it out!</p>
+<pre class="r"><code>footballlogs19 &lt;- read_csv(&quot;badfootballlogs19.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   .default = col_double(),
+##   Date = col_character(),
+##   HomeAway = col_character(),
+##   Opponent = col_character(),
+##   Result = col_character(),
+##   TeamFull = col_character(),
+##   TeamURL = col_character(),
+##   Team = col_character(),
+##   Conference = col_character()
+## )
+## ℹ Use `spec()` for the full column specifications.</code></pre>
+<p>So the reason why I did the Head function, was to see what kind of data I was working with. Right off the bat, I noticed that the score and the win/loss result was under the result column. That is something that we need to fix right away.</p>
+<pre class="r"><code>head(footballlogs19)</code></pre>
+<pre><code>## # A tibble: 6 x 51
+##    Game Date  HomeAway Opponent Result PassingCmp PassingAtt PassingPct
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1     1 8/24… N        Miami (… W (24…         17         27       63  
+## 2     2 9/7/… &lt;NA&gt;     Tenness… W (45…         30         36       83.3
+## 3     3 9/14… @        Kentucky W (29…         21         30       70  
+## 4     4 9/21… &lt;NA&gt;     Tenness… W (34…         24         34       70.6
+## 5     5 9/28… &lt;NA&gt;     Towson   W (38…         24         28       85.7
+## 6     6 10/5… &lt;NA&gt;     Auburn   W (24…         25         39       64.1
+## # … with 43 more variables: PassingYds &lt;dbl&gt;, PassingTD &lt;dbl&gt;,
+## #   RushingAtt &lt;dbl&gt;, RushingYds &lt;dbl&gt;, RushingAvg &lt;dbl&gt;, RushingTD &lt;dbl&gt;,
+## #   OffensivePlays &lt;dbl&gt;, OffensiveYards &lt;dbl&gt;, OffenseAvg &lt;dbl&gt;,
+## #   FirstDownPass &lt;dbl&gt;, FirstDownRush &lt;dbl&gt;, FirstDownPen &lt;dbl&gt;,
+## #   FirstDownTotal &lt;dbl&gt;, Penalties &lt;dbl&gt;, PenaltyYds &lt;dbl&gt;, Fumbles &lt;dbl&gt;,
+## #   Interceptions &lt;dbl&gt;, TotalTurnovers &lt;dbl&gt;, TeamFull &lt;chr&gt;, TeamURL &lt;chr&gt;,
+## #   DefPassingCmp &lt;dbl&gt;, DefPassingAtt &lt;dbl&gt;, DefPassingPct &lt;dbl&gt;,
+## #   DefPassingYds &lt;dbl&gt;, DefPassingTD &lt;dbl&gt;, DefRushingAtt &lt;dbl&gt;,
+## #   DefRushingYds &lt;dbl&gt;, DefRushingAvg &lt;dbl&gt;, DefRushingTD &lt;dbl&gt;,
+## #   DefPlays &lt;dbl&gt;, DefYards &lt;dbl&gt;, DefAvg &lt;dbl&gt;, DefFirstDownPass &lt;dbl&gt;,
+## #   DefFirstDownRush &lt;dbl&gt;, DefFirstDownPen &lt;dbl&gt;, DefFirstDownTotal &lt;dbl&gt;,
+## #   DefPenalties &lt;dbl&gt;, DefPenaltyYds &lt;dbl&gt;, DefFumbles &lt;dbl&gt;,
+## #   DefInterceptions &lt;dbl&gt;, DefTotalTurnovers &lt;dbl&gt;, Team &lt;chr&gt;,
+## #   Conference &lt;chr&gt;</code></pre>
+<p>So in order to split the column into two, we had to use the separate function. We used the result column to split into Outcome and Score. Now, we were able to seperate the two by using the sep= function. The way that I was able to do this was: "".</p>
+<pre class="r"><code>footballlogs19 %&gt;% 
+  separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot; &quot;) %&gt;%
+  head()</code></pre>
+<pre><code>## # A tibble: 6 x 52
+##    Game Date  HomeAway Opponent Outcome Score PassingCmp PassingAtt PassingPct
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1     1 8/24… N        Miami (… W       (24-…         17         27       63  
+## 2     2 9/7/… &lt;NA&gt;     Tenness… W       (45-…         30         36       83.3
+## 3     3 9/14… @        Kentucky W       (29-…         21         30       70  
+## 4     4 9/21… &lt;NA&gt;     Tenness… W       (34-…         24         34       70.6
+## 5     5 9/28… &lt;NA&gt;     Towson   W       (38-…         24         28       85.7
+## 6     6 10/5… &lt;NA&gt;     Auburn   W       (24-…         25         39       64.1
+## # … with 43 more variables: PassingYds &lt;dbl&gt;, PassingTD &lt;dbl&gt;,
+## #   RushingAtt &lt;dbl&gt;, RushingYds &lt;dbl&gt;, RushingAvg &lt;dbl&gt;, RushingTD &lt;dbl&gt;,
+## #   OffensivePlays &lt;dbl&gt;, OffensiveYards &lt;dbl&gt;, OffenseAvg &lt;dbl&gt;,
+## #   FirstDownPass &lt;dbl&gt;, FirstDownRush &lt;dbl&gt;, FirstDownPen &lt;dbl&gt;,
+## #   FirstDownTotal &lt;dbl&gt;, Penalties &lt;dbl&gt;, PenaltyYds &lt;dbl&gt;, Fumbles &lt;dbl&gt;,
+## #   Interceptions &lt;dbl&gt;, TotalTurnovers &lt;dbl&gt;, TeamFull &lt;chr&gt;, TeamURL &lt;chr&gt;,
+## #   DefPassingCmp &lt;dbl&gt;, DefPassingAtt &lt;dbl&gt;, DefPassingPct &lt;dbl&gt;,
+## #   DefPassingYds &lt;dbl&gt;, DefPassingTD &lt;dbl&gt;, DefRushingAtt &lt;dbl&gt;,
+## #   DefRushingYds &lt;dbl&gt;, DefRushingAvg &lt;dbl&gt;, DefRushingTD &lt;dbl&gt;,
+## #   DefPlays &lt;dbl&gt;, DefYards &lt;dbl&gt;, DefAvg &lt;dbl&gt;, DefFirstDownPass &lt;dbl&gt;,
+## #   DefFirstDownRush &lt;dbl&gt;, DefFirstDownPen &lt;dbl&gt;, DefFirstDownTotal &lt;dbl&gt;,
+## #   DefPenalties &lt;dbl&gt;, DefPenaltyYds &lt;dbl&gt;, DefFumbles &lt;dbl&gt;,
+## #   DefInterceptions &lt;dbl&gt;, DefTotalTurnovers &lt;dbl&gt;, Team &lt;chr&gt;,
+## #   Conference &lt;chr&gt;</code></pre>
+<p>Now, in order to take away the “()” function from the score, we had to take the gsub fucntion in order to take them out.</p>
+<pre class="r"><code>footballlogs19 %&gt;% 
+  separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot; &quot;) %&gt;%
+  separate(Score, into =c(&quot;Outcome&quot;, &quot;Score&quot;), sep = &quot;\\(&quot;)%&gt;%
+ mutate(Score = gsub(&quot;)&quot;,&quot;&quot;, Score,fixed = TRUE)) %&gt;%           
+  head()</code></pre>
+<pre><code>## # A tibble: 6 x 52
+##    Game Date  HomeAway Opponent PassingCmp Outcome Score PassingAtt PassingPct
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1     1 8/24… N        Miami (…         17 &quot;&quot;      24-20         27       63  
+## 2     2 9/7/… &lt;NA&gt;     Tenness…         30 &quot;&quot;      45-0          36       83.3
+## 3     3 9/14… @        Kentucky         21 &quot;&quot;      29-21         30       70  
+## 4     4 9/21… &lt;NA&gt;     Tenness…         24 &quot;&quot;      34-3          34       70.6
+## 5     5 9/28… &lt;NA&gt;     Towson           24 &quot;&quot;      38-0          28       85.7
+## 6     6 10/5… &lt;NA&gt;     Auburn           25 &quot;&quot;      24-13         39       64.1
+## # … with 43 more variables: PassingYds &lt;dbl&gt;, PassingTD &lt;dbl&gt;,
+## #   RushingAtt &lt;dbl&gt;, RushingYds &lt;dbl&gt;, RushingAvg &lt;dbl&gt;, RushingTD &lt;dbl&gt;,
+## #   OffensivePlays &lt;dbl&gt;, OffensiveYards &lt;dbl&gt;, OffenseAvg &lt;dbl&gt;,
+## #   FirstDownPass &lt;dbl&gt;, FirstDownRush &lt;dbl&gt;, FirstDownPen &lt;dbl&gt;,
+## #   FirstDownTotal &lt;dbl&gt;, Penalties &lt;dbl&gt;, PenaltyYds &lt;dbl&gt;, Fumbles &lt;dbl&gt;,
+## #   Interceptions &lt;dbl&gt;, TotalTurnovers &lt;dbl&gt;, TeamFull &lt;chr&gt;, TeamURL &lt;chr&gt;,
+## #   DefPassingCmp &lt;dbl&gt;, DefPassingAtt &lt;dbl&gt;, DefPassingPct &lt;dbl&gt;,
+## #   DefPassingYds &lt;dbl&gt;, DefPassingTD &lt;dbl&gt;, DefRushingAtt &lt;dbl&gt;,
+## #   DefRushingYds &lt;dbl&gt;, DefRushingAvg &lt;dbl&gt;, DefRushingTD &lt;dbl&gt;,
+## #   DefPlays &lt;dbl&gt;, DefYards &lt;dbl&gt;, DefAvg &lt;dbl&gt;, DefFirstDownPass &lt;dbl&gt;,
+## #   DefFirstDownRush &lt;dbl&gt;, DefFirstDownPen &lt;dbl&gt;, DefFirstDownTotal &lt;dbl&gt;,
+## #   DefPenalties &lt;dbl&gt;, DefPenaltyYds &lt;dbl&gt;, DefFumbles &lt;dbl&gt;,
+## #   DefInterceptions &lt;dbl&gt;, DefTotalTurnovers &lt;dbl&gt;, Team &lt;chr&gt;,
+## #   Conference &lt;chr&gt;</code></pre>
+<p>Now for this code, I copied and pasted from below because I wanted two more columns names Team score and Opponent Score. I did that by separating the score by the sep function. Next, I made sure to mutate the opponent score so the score from the team score would be able to go to the column under Opponent Score. Now, I made sure that both columns were separated. Then I used the mutate function to make it be able to mutate the Team score and the Opponent score. I added it to a new data frame.</p>
+<pre class="r"><code>footballlogs19 %&gt;% 
+  separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot; &quot;) %&gt;%
+  separate(Score,  into =c(&quot;TeamScore&quot;, &quot;OpponentScore&quot;), sep = &quot;\\(&quot;) %&gt;%
+  mutate(OpponentScore=gsub(&quot;)&quot;, &quot;&quot;, OpponentScore)) %&gt;%
+  separate(OpponentScore, into =c(&quot;TeamScore&quot;, &quot;OpponentScore&quot;), sep =&quot;-&quot;)%&gt;%
+ mutate(TeamScore = as.numeric(TeamScore), OpponentScore = as.numeric(OpponentScore)) -&gt;footballlogs192</code></pre>
+<p>Now I took that data frame and mutated the differential between the Team score and the Opponent Score. I made that into a new data frame.</p>
+<pre class="r"><code>Differential &lt;-  footballlogs192 %&gt;%
+  mutate(differential = TeamScore - OpponentScore) </code></pre>
+<p>Then I wanted to find the worst college football games. I was able to do that by using the filter method to filter out the games where the differential was over 65. I made sure to put that under a new data set.</p>
+<pre class="r"><code>worstgames &lt;- Differential %&gt;% filter(differential &gt; 65)</code></pre>
+<p>Then I wanted to make a scatter plot from the data above, footballlogs192 of the Team and Opponent Score. Then I took the worst games data and made sure to put it in the scatterplot data. Then I made sure to encircle the data to make sure you would know where to look. Then I added the title,subtitle and captions to make sure you guys know what we are looking at.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=footballlogs192, aes(x=TeamScore, y=OpponentScore), color=&quot;grey&quot;) +
+  geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore), color=&quot;Black&quot;) +
+  geom_encircle(data = worstgames, aes(x=TeamScore, y=OpponentScore), s_shape=.3, expand=0.1, colour=&quot;Red&quot;) +
+  geom_text(aes( x=100,y=70, label=&quot;Worst Games&quot;)) +
+  labs(title=&quot;The Worst College Football Games This Year.&quot;, subtitle=&quot;There Were Only A Couple Of Bad College Football Games.&quot;, x=&quot;Team Score&quot;, y=&quot;Opponent Score&quot;) +
+  labs(caption = &quot;Sports Reference | By Tyler Rinkol&quot;) + theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8),
+    plot.subtitle = element_text(size = 10),
+    panel.grid.major = element_blank()
+  )</code></pre>
+<p><img src="/post/2021/03/29/text-cleaning/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+Now you guys can see what were the worst football games during the College Football season were.</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2021/03/27/text-cleaning/">Text Cleaning</a></span>
+  <span class="nav-next"></span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://yihui.name">Yihui Xie</a> 2017 | <a href="https://github.com/yihui">Github</a> | <a href="https://twitter.com/xieyihui">Twitter</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
