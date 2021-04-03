@@ -143,7 +143,9 @@ library(formattable)</code></pre>
 ## ℹ Use `spec()` for the full column specifications.</code></pre>
 <p>When wanting to be the best team in the last 20 years, you also have to be the best team during your season, The Golden State Warriors did that. They led in points, field goal average, 2 point percentage, assists, and steals. This is also the year that they got Kevin Durant. The Warriors had 4 guys in double digits for points. Curry, Thompson, and Durant all averaged over 20 points a game.</p>
 <pre class="r"><code>warriors %&gt;% 
-  filter(Season == &quot;2017&quot;)</code></pre>
+  filter(Season == &quot;2017&quot;) %&gt;%
+  top_n(10)</code></pre>
+<pre><code>## Selecting by PTS</code></pre>
 <pre><code>##    Season Rk                    Team  G    MP   FG  FGA   FG.  X3P X3PA  X3P.
 ## 1    2017  1  Golden State Warriors* 82 19780 3532 7140 0.495  982 2562 0.383
 ## 2    2017  2        Houston Rockets* 82 19780 3305 7152 0.462 1181 3306 0.357
@@ -155,57 +157,17 @@ library(formattable)</code></pre>
 ## 8    2017  8 Portland Trail Blazers* 82 19930 3243 7059 0.459  852 2272 0.375
 ## 9    2017  9            Phoenix Suns 82 19830 3270 7260 0.450  615 1854 0.332
 ## 10   2017 10        Toronto Raptors* 82 19780 3211 6918 0.464  725 1996 0.363
-## 11   2017 11  Oklahoma City Thunder* 82 19805 3237 7169 0.452  692 2116 0.327
-## 12   2017 12           Brooklyn Nets 82 19755 3102 6987 0.444  877 2591 0.338
-## 13   2017 13  Minnesota Timberwolves 82 19805 3235 6922 0.467  601 1723 0.349
-## 14   2017 14      San Antonio Spurs* 82 19805 3222 6864 0.469  753 1927 0.391
-## 15   2017 15         Indiana Pacers* 82 19855 3221 6931 0.465  709 1885 0.376
-## 16   2017 16       Charlotte Hornets 82 19830 3093 7000 0.442  824 2347 0.351
-## 17   2017 17      Los Angeles Lakers 82 19705 3224 7164 0.450  730 2110 0.346
-## 18   2017 18    New Orleans Pelicans 82 19905 3210 7130 0.450  768 2196 0.350
-## 19   2017 19         New York Knicks 82 19855 3244 7256 0.447  704 2022 0.348
-## 20   2017 20        Milwaukee Bucks* 82 19780 3182 6715 0.474  720 1946 0.370
-## 21   2017 21              Miami Heat 82 19780 3202 7037 0.455  808 2213 0.365
-## 22   2017 22          Atlanta Hawks* 82 19880 3123 6918 0.451  729 2137 0.341
-## 23   2017 23          Chicago Bulls* 82 19780 3169 7141 0.444  623 1831 0.340
-## 24   2017 24        Sacramento Kings 82 19880 3105 6734 0.461  737 1960 0.376
-## 25   2017 25      Philadelphia 76ers 82 19830 3088 6992 0.442  831 2443 0.340
-## 26   2017 26         Detroit Pistons 82 19805 3269 7282 0.449  631 1915 0.330
-## 27   2017 27           Orlando Magic 82 19805 3139 7133 0.440  701 2139 0.328
-## 28   2017 28              Utah Jazz* 82 19755 3033 6515 0.466  791 2128 0.372
-## 29   2017 29      Memphis Grizzlies* 82 19905 2984 6854 0.435  767 2169 0.354
-## 30   2017 30        Dallas Mavericks 82 19780 2968 6750 0.440  878 2473 0.355
-##     X2P X2PA  X2P.   FT  FTA   FT.  ORB  DRB  TRB  AST STL BLK  TOV   PF  PTS
-## 1  2550 4578 0.557 1457 1850 0.788  770 2873 3643 2491 785 555 1211 1585 9503
-## 2  2124 3846 0.552 1667 2177 0.766  892 2746 3638 2070 670 352 1240 1634 9458
-## 3  2507 4829 0.519 1537 1986 0.774  966 2837 3803 2077 568 323 1226 1567 9161
-## 4  2208 4184 0.528 1431 1913 0.748  766 2821 3587 1858 539 327 1121 1486 9048
-## 5  2632 5107 0.515 1421 1812 0.784  843 2671 3514 1956 693 336 1162 1745 8953
-## 6  2401 4575 0.525 1586 2128 0.745  738 2790 3528 1848 612 347 1062 1626 8911
-## 7  2183 4236 0.515 1536 1903 0.807  744 2698 3442 2069 617 340 1088 1686 8857
-## 8  2391 4787 0.499 1513 1940 0.780  830 2750 3580 1733 574 408 1126 1736 8851
-## 9  2655 5406 0.491 1676 2159 0.776  976 2712 3688 1604 673 399 1265 2030 8831
-## 10 2486 4922 0.505 1615 2028 0.796  871 2676 3547 1517 677 400 1041 1708 8762
-## 11 2545 5053 0.504 1575 2113 0.745 1002 2821 3823 1721 648 408 1230 1715 8741
-## 12 2225 4396 0.506 1592 2020 0.788  721 2879 3600 1756 593 387 1356 1726 8673
-## 13 2634 5199 0.507 1586 1986 0.799  938 2540 3478 1940 654 370 1150 1646 8657
-## 14 2469 4937 0.500 1440 1806 0.797  821 2777 3598 1954 655 484 1101 1498 8637
-## 15 2512 5046 0.498 1467 1811 0.810  742 2702 3444 1844 669 409 1130 1597 8618
-## 16 2269 4653 0.488 1591 1953 0.815  721 2853 3574 1891 571 390  942 1360 8601
-## 17 2494 5054 0.493 1397 1853 0.754  933 2636 3569 1716 674 320 1243 1698 8575
-## 18 2442 4934 0.495 1368 1825 0.750  703 2879 3582 1869 638 453 1054 1490 8556
-## 19 2540 5234 0.485 1364 1731 0.788  983 2723 3706 1786 581 455 1139 1668 8556
-## 20 2462 4769 0.516 1413 1839 0.768  723 2589 3312 1984 666 436 1145 1660 8497
-## 21 2394 4824 0.496 1248 1768 0.706  872 2705 3577 1742 588 469 1102 1680 8460
-## 22 2394 4781 0.501 1484 2039 0.728  842 2793 3635 1938 672 397 1294 1491 8459
-## 23 2546 5310 0.479 1474 1848 0.798  999 2797 3796 1851 643 393 1112 1455 8435
-## 24 2368 4774 0.496 1483 1913 0.775  715 2652 3367 1844 627 324 1201 1667 8430
-## 25 2257 4549 0.496 1393 1806 0.771  807 2706 3513 1949 692 420 1366 1793 8400
-## 26 2638 5367 0.492 1140 1586 0.719  908 2838 3746 1732 574 310  973 1467 8309
-## 27 2438 4994 0.488 1309 1753 0.747  807 2734 3541 1820 580 396 1091 1584 8288
-## 28 2242 4387 0.511 1401 1875 0.747  771 2774 3545 1651 550 410 1118 1545 8258
-## 29 2217 4685 0.473 1504 1918 0.784  886 2621 3507 1744 653 344 1059 1840 8239
-## 30 2090 4277 0.489 1215 1516 0.801  647 2516 3163 1705 614 307  972 1567 8029</code></pre>
+##     X2P X2PA  X2P.   FT  FTA   FT. ORB  DRB  TRB  AST STL BLK  TOV   PF  PTS
+## 1  2550 4578 0.557 1457 1850 0.788 770 2873 3643 2491 785 555 1211 1585 9503
+## 2  2124 3846 0.552 1667 2177 0.766 892 2746 3638 2070 670 352 1240 1634 9458
+## 3  2507 4829 0.519 1537 1986 0.774 966 2837 3803 2077 568 323 1226 1567 9161
+## 4  2208 4184 0.528 1431 1913 0.748 766 2821 3587 1858 539 327 1121 1486 9048
+## 5  2632 5107 0.515 1421 1812 0.784 843 2671 3514 1956 693 336 1162 1745 8953
+## 6  2401 4575 0.525 1586 2128 0.745 738 2790 3528 1848 612 347 1062 1626 8911
+## 7  2183 4236 0.515 1536 1903 0.807 744 2698 3442 2069 617 340 1088 1686 8857
+## 8  2391 4787 0.499 1513 1940 0.780 830 2750 3580 1733 574 408 1126 1736 8851
+## 9  2655 5406 0.491 1676 2159 0.776 976 2712 3688 1604 673 399 1265 2030 8831
+## 10 2486 4922 0.505 1615 2028 0.796 871 2676 3547 1517 677 400 1041 1708 8762</code></pre>
 <p>The first thing that I wanted to check out was the offensive Z score for every team. You may be wondering what a Z score is. A Z score is a statistical measure of the distance or a mean. It’s a good thing because a Z-score puts context on how good a team was during their era. So in order to find how good the Warriors were on offense. I had to find the mean of Points, Assists, and Rebounds for each team.</p>
 <pre class="r"><code>warriorzscore &lt;- warriors %&gt;% 
   group_by(Season, Team) %&gt;% 
@@ -291,7 +253,7 @@ library(formattable)</code></pre>
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#diucunnons .gt_table {
+#guhewaxyvj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -316,7 +278,7 @@ library(formattable)</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#diucunnons .gt_heading {
+#guhewaxyvj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -328,7 +290,7 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#diucunnons .gt_title {
+#guhewaxyvj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -338,7 +300,7 @@ library(formattable)</code></pre>
   border-bottom-width: 0;
 }
 
-#diucunnons .gt_subtitle {
+#guhewaxyvj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -348,13 +310,13 @@ library(formattable)</code></pre>
   border-top-width: 0;
 }
 
-#diucunnons .gt_bottom_border {
+#guhewaxyvj .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#diucunnons .gt_col_headings {
+#guhewaxyvj .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -369,7 +331,7 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#diucunnons .gt_col_heading {
+#guhewaxyvj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -389,7 +351,7 @@ library(formattable)</code></pre>
   overflow-x: hidden;
 }
 
-#diucunnons .gt_column_spanner_outer {
+#guhewaxyvj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -401,15 +363,15 @@ library(formattable)</code></pre>
   padding-right: 4px;
 }
 
-#diucunnons .gt_column_spanner_outer:first-child {
+#guhewaxyvj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#diucunnons .gt_column_spanner_outer:last-child {
+#guhewaxyvj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#diucunnons .gt_column_spanner {
+#guhewaxyvj .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -421,7 +383,7 @@ library(formattable)</code></pre>
   width: 100%;
 }
 
-#diucunnons .gt_group_heading {
+#guhewaxyvj .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -443,7 +405,7 @@ library(formattable)</code></pre>
   vertical-align: middle;
 }
 
-#diucunnons .gt_empty_group_heading {
+#guhewaxyvj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -458,15 +420,15 @@ library(formattable)</code></pre>
   vertical-align: middle;
 }
 
-#diucunnons .gt_from_md > :first-child {
+#guhewaxyvj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#diucunnons .gt_from_md > :last-child {
+#guhewaxyvj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#diucunnons .gt_row {
+#guhewaxyvj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -485,7 +447,7 @@ library(formattable)</code></pre>
   overflow-x: hidden;
 }
 
-#diucunnons .gt_stub {
+#guhewaxyvj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -497,7 +459,7 @@ library(formattable)</code></pre>
   padding-left: 12px;
 }
 
-#diucunnons .gt_summary_row {
+#guhewaxyvj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -507,7 +469,7 @@ library(formattable)</code></pre>
   padding-right: 5px;
 }
 
-#diucunnons .gt_first_summary_row {
+#guhewaxyvj .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -517,7 +479,7 @@ library(formattable)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#diucunnons .gt_grand_summary_row {
+#guhewaxyvj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -527,7 +489,7 @@ library(formattable)</code></pre>
   padding-right: 5px;
 }
 
-#diucunnons .gt_first_grand_summary_row {
+#guhewaxyvj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -537,11 +499,11 @@ library(formattable)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#diucunnons .gt_striped {
+#guhewaxyvj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#diucunnons .gt_table_body {
+#guhewaxyvj .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -550,7 +512,7 @@ library(formattable)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#diucunnons .gt_footnotes {
+#guhewaxyvj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -564,13 +526,13 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#diucunnons .gt_footnote {
+#guhewaxyvj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#diucunnons .gt_sourcenotes {
+#guhewaxyvj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -584,46 +546,46 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#diucunnons .gt_sourcenote {
+#guhewaxyvj .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#diucunnons .gt_left {
+#guhewaxyvj .gt_left {
   text-align: left;
 }
 
-#diucunnons .gt_center {
+#guhewaxyvj .gt_center {
   text-align: center;
 }
 
-#diucunnons .gt_right {
+#guhewaxyvj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#diucunnons .gt_font_normal {
+#guhewaxyvj .gt_font_normal {
   font-weight: normal;
 }
 
-#diucunnons .gt_font_bold {
+#guhewaxyvj .gt_font_bold {
   font-weight: bold;
 }
 
-#diucunnons .gt_font_italic {
+#guhewaxyvj .gt_font_italic {
   font-style: italic;
 }
 
-#diucunnons .gt_super {
+#guhewaxyvj .gt_super {
   font-size: 65%;
 }
 
-#diucunnons .gt_footnote_marks {
+#guhewaxyvj .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="diucunnons" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="guhewaxyvj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   <thead class="gt_header">
     <tr>
       <th colspan="5" class="gt_heading gt_title gt_font_normal" style="color: black; text-align: left; font-weight: bold;">How efficent was the Warriors offense?</th>
@@ -795,7 +757,7 @@ So I made sure to take the data above and filter the 2017 Warriors.</p>
     ) +
     labs(title=&quot;How does the 2017 Warriors shooting percentages compare to other teams?&quot;, subtitle=&quot;Based on this graph, we can clearly see that they are one of the best shooting teams.&quot;, caption=&quot;Source: Sports-Reference | By Tyler Rinkol&quot;)  + theme_minimal() + 
   theme(
-    plot.title = element_text(size = 11, face = &quot;bold&quot;),
+    plot.title = element_text(size = 10, face = &quot;bold&quot;),
     axis.title = element_text(size = 8), 
     plot.subtitle = element_text(size=8), 
     panel.grid.minor = element_blank()
@@ -843,7 +805,7 @@ summary(fit)</code></pre>
     ) +
     labs(title=&quot;How bad did the Warriors beat other teams based on their offensive rating?&quot;, subtitle=&quot;Compared to other teams, they beat the crap out of teams based on their offense.&quot;, caption=&quot;Source: Sports-Reference | By Tyler Rinkol&quot;)  + theme_minimal() + 
   theme(
-    plot.title = element_text(size = 11, face = &quot;bold&quot;),
+    plot.title = element_text(size = 10, face = &quot;bold&quot;),
     axis.title = element_text(size = 8), 
     plot.subtitle = element_text(size=10), 
     panel.grid.minor = element_blank()
