@@ -15,10 +15,8 @@
 
     
       
-      <meta property="description" content="NBA fans have argued for years, who is the best NBA team ever. Which is a great argument to have, but looking at today’s basketball, years 2000 to 2021, who has the best team during that period?
-When &amp;hellip;">
-      <meta property="og:description" content="NBA fans have argued for years, who is the best NBA team ever. Which is a great argument to have, but looking at today’s basketball, years 2000 to 2021, who has the best team during that period?
-When &amp;hellip;">
+      <meta property="description" content="NBA fans have argued for years, “who is the best NBA team ever?” Some could argue that it could be the 1995 Chicago Bulls or 2016 Golden State Warriors. However, this argument is very hard to prove. A &amp;hellip;">
+      <meta property="og:description" content="NBA fans have argued for years, “who is the best NBA team ever?” Some could argue that it could be the 1995 Chicago Bulls or 2016 Golden State Warriors. However, this argument is very hard to prove. A &amp;hellip;">
       
     
 
@@ -92,8 +90,8 @@ When &amp;hellip;">
 <script src="/post/2021/04/03/are-the-2017-golden-state-warriors-the-best-team-in-the-past-20-years/index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>NBA fans have argued for years, who is the best NBA team ever. Which is a great argument to have, but looking at today’s basketball, years 2000 to 2021, who has the best team during that period?</p>
-<p>When you think of todays basketball, you think of good shooting and stars taking over the game. Looking over the years, there has not been a team that has a set of shooters on their team until… the Golden State Warriors. When you think of the greatest team in the past 20 years, you probably think of the 2015-16 Golden State Warriors. I wouldn’t blame you, but I am here to tell you that you are wrong. Yes, they did win 73 games but when talking about the greatest team, you have to have a championship to your name. That’s why I chose the 2016-17 Golden State Warriors. If you don’t believe so, let’s go take a look at some numbers.</p>
+<p>NBA fans have argued for years, “who is the best NBA team ever?” Some could argue that it could be the 1995 Chicago Bulls or 2016 Golden State Warriors. However, this argument is very hard to prove. A more realistic argument would be to look at what the best teams are in the modern era, more specifically from 2000 to 2021.</p>
+<p>When you think of today’s basketball, you may think of good shooting and superstars dominating the game. Looking over the years, there had not been a team that has a set of dominant shooters on their team until… the Golden State Warriors. When you think of the greatest team in the past 20 years, you probably think of the 2015-16 Golden State Warriors. I wouldn’t blame you, but I am here to tell you that you are wrong. Yes, they did win 73 games but when looking for a greatest team, they have to have a championship to your name. That’s why I chose the 2016-17 Golden State Warriors. If you don’t believe so, let’s take a look at some numbers.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
@@ -126,7 +124,7 @@ library(formattable)</code></pre>
 <pre><code>## The following object is masked from &#39;package:gt&#39;:
 ## 
 ##     currency</code></pre>
-<p>The two data sets I am going to be working with is NBASTATS, which is the team stats for every team in the last 20 years. And NBAmissStats are the teams’ miscellaneous stats from the past 20 years also. Both of these data sets are from Sports Reference.</p>
+<p>The two data sets I am going to be working with is “NBASTATS,” which is the team stats for every team in the last 20 years. And “NBAmissStats” are the teams’ miscellaneous stats from the past 20 years. Both of these data sets are from Sports Reference.</p>
 <pre class="r"><code>warriors &lt;- read.csv(&quot;NBASTATS.csv&quot;)</code></pre>
 <pre class="r"><code>NBAmiss &lt;- read_csv(&quot;NBAmissStats.csv&quot;)</code></pre>
 <pre><code>## Warning: Duplicated column names deduplicated: &#39;eFG%&#39; =&gt; &#39;eFG%_1&#39; [23], &#39;TOV%&#39;
@@ -141,7 +139,7 @@ library(formattable)</code></pre>
 ##   `Attend./G` = col_number()
 ## )
 ## ℹ Use `spec()` for the full column specifications.</code></pre>
-<p>When wanting to be the best team in the last 20 years, you also have to be the best team during your season, The Golden State Warriors did that. They led in points, field goal average, 2 point percentage, assists, and steals. This is also the year that they got Kevin Durant. The Warriors had 4 guys in double digits for points. Curry, Thompson, and Durant all averaged over 20 points a game.</p>
+<p>When wanting to be the best team in the last 20 years, a team needs to dominate in every aspect of the game, and the Golden State Warriors did that. They led in points, field goal average, 2 point percentage, assists, and steals. This is also the year that they got Kevin Durant. The Warriors had 4 players in double digits for points. Curry, Thompson, and Durant all averaged over 20 points a game.</p>
 <pre class="r"><code>warriors %&gt;% 
   filter(Season == &quot;2017&quot;) %&gt;%
   top_n(10)</code></pre>
@@ -176,14 +174,14 @@ library(formattable)</code></pre>
     ReboundAvg = mean(TRB), 
     AssistAvg = mean(AST))</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;Season&#39;. You can override using the `.groups` argument.</code></pre>
-<p>In order to find out the Z score, we need to have it as numeric function, so we are able to find the mean of it. I did that for points,rebounds, and assists. Then I was able to find out the TotalZscore by adding those three up.</p>
+<p>In order to find out the Z score, we need to have it as numeric function, so we are able to find the mean of it. I did that for points, rebounds, and assists. Then I was able to find out the Total-Z-score by adding those three up.</p>
 <pre class="r"><code>teamzscore &lt;- warriorzscore %&gt;% 
   mutate(
     PtsZscore = as.numeric(scale(PtsAvg, center = TRUE, scale = TRUE)),
     RebZscore = as.numeric(scale(ReboundAvg, center = TRUE, scale = TRUE)),
     AstZscore = as.numeric(scale(AssistAvg, center = TRUE, scale = TRUE)),
     TotalZscore = PtsZscore + RebZscore + AstZscore) </code></pre>
-<p>When looking at the Z-scores for all 20 years, the 2017 Warriors were second. Right under the 2016 Warriors. Now the 2016 Warriors did beat the 2017 Warriors with points Z-score and rebounding Z-score. The 2017 Warriors did win the assist Z-score battle. The 2017 Warriors were not a rebounding team. Mostly because they made most of their shots so they didn’t have to rebound. But a key thing to look out for is that Kevin Durant missed up to 19 games during the 2017 season. I believe if he would’ve played those 19 games, their points Z-score would’ve gone up. I am not saying by a lot, but just enough to cut down the difference just a little bit more. But looking at the rest of the teams, they were all really good playoff teams. So judging that they were second, it was a good sight to see.</p>
+<p>When looking at the Z-scores for all 20 years, the 2017 Warriors were second, right under the 2016 Warriors. The 2016 Warriors did beat the 2017 Warriors with points Z-score and rebounding Z-score. The 2017 Warriors did win the assist Z-score battle. The 2017 Warriors were not a rebounding team, mostly because they made most of their shots so they didn’t have to rebound. But a key thing to look out for is that Kevin Durant missed up to 19 games during the 2017 season. I believe if he would’ve played those 19 games, their points Z-score would’ve gone up, not necessarily by a lot, but just enough to cut down the difference just a little bit more. When looking at the rest of the teams, they were all really good playoff teams. So judging that they were second, it was a good sight to see.</p>
 <pre class="r"><code>teamzscore %&gt;% 
   arrange(desc(TotalZscore)) %&gt;%
   select(Team,Season,PtsZscore,AstZscore,RebZscore,TotalZscore) %&gt;%
@@ -253,7 +251,7 @@ library(formattable)</code></pre>
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pzuwbcdeai .gt_table {
+#hxwrtwvjgm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -278,7 +276,7 @@ library(formattable)</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_heading {
+#hxwrtwvjgm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -290,7 +288,7 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_title {
+#hxwrtwvjgm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -300,7 +298,7 @@ library(formattable)</code></pre>
   border-bottom-width: 0;
 }
 
-#pzuwbcdeai .gt_subtitle {
+#hxwrtwvjgm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -310,13 +308,13 @@ library(formattable)</code></pre>
   border-top-width: 0;
 }
 
-#pzuwbcdeai .gt_bottom_border {
+#hxwrtwvjgm .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_col_headings {
+#hxwrtwvjgm .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -331,7 +329,7 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_col_heading {
+#hxwrtwvjgm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -351,7 +349,7 @@ library(formattable)</code></pre>
   overflow-x: hidden;
 }
 
-#pzuwbcdeai .gt_column_spanner_outer {
+#hxwrtwvjgm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -363,15 +361,15 @@ library(formattable)</code></pre>
   padding-right: 4px;
 }
 
-#pzuwbcdeai .gt_column_spanner_outer:first-child {
+#hxwrtwvjgm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pzuwbcdeai .gt_column_spanner_outer:last-child {
+#hxwrtwvjgm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pzuwbcdeai .gt_column_spanner {
+#hxwrtwvjgm .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -383,7 +381,7 @@ library(formattable)</code></pre>
   width: 100%;
 }
 
-#pzuwbcdeai .gt_group_heading {
+#hxwrtwvjgm .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -405,7 +403,7 @@ library(formattable)</code></pre>
   vertical-align: middle;
 }
 
-#pzuwbcdeai .gt_empty_group_heading {
+#hxwrtwvjgm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -420,15 +418,15 @@ library(formattable)</code></pre>
   vertical-align: middle;
 }
 
-#pzuwbcdeai .gt_from_md > :first-child {
+#hxwrtwvjgm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pzuwbcdeai .gt_from_md > :last-child {
+#hxwrtwvjgm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pzuwbcdeai .gt_row {
+#hxwrtwvjgm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -447,7 +445,7 @@ library(formattable)</code></pre>
   overflow-x: hidden;
 }
 
-#pzuwbcdeai .gt_stub {
+#hxwrtwvjgm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -459,7 +457,7 @@ library(formattable)</code></pre>
   padding-left: 12px;
 }
 
-#pzuwbcdeai .gt_summary_row {
+#hxwrtwvjgm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -469,7 +467,7 @@ library(formattable)</code></pre>
   padding-right: 5px;
 }
 
-#pzuwbcdeai .gt_first_summary_row {
+#hxwrtwvjgm .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -479,7 +477,7 @@ library(formattable)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_grand_summary_row {
+#hxwrtwvjgm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -489,7 +487,7 @@ library(formattable)</code></pre>
   padding-right: 5px;
 }
 
-#pzuwbcdeai .gt_first_grand_summary_row {
+#hxwrtwvjgm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -499,11 +497,11 @@ library(formattable)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_striped {
+#hxwrtwvjgm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pzuwbcdeai .gt_table_body {
+#hxwrtwvjgm .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -512,7 +510,7 @@ library(formattable)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_footnotes {
+#hxwrtwvjgm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -526,13 +524,13 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_footnote {
+#hxwrtwvjgm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#pzuwbcdeai .gt_sourcenotes {
+#hxwrtwvjgm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -546,46 +544,46 @@ library(formattable)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#pzuwbcdeai .gt_sourcenote {
+#hxwrtwvjgm .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#pzuwbcdeai .gt_left {
+#hxwrtwvjgm .gt_left {
   text-align: left;
 }
 
-#pzuwbcdeai .gt_center {
+#hxwrtwvjgm .gt_center {
   text-align: center;
 }
 
-#pzuwbcdeai .gt_right {
+#hxwrtwvjgm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pzuwbcdeai .gt_font_normal {
+#hxwrtwvjgm .gt_font_normal {
   font-weight: normal;
 }
 
-#pzuwbcdeai .gt_font_bold {
+#hxwrtwvjgm .gt_font_bold {
   font-weight: bold;
 }
 
-#pzuwbcdeai .gt_font_italic {
+#hxwrtwvjgm .gt_font_italic {
   font-style: italic;
 }
 
-#pzuwbcdeai .gt_super {
+#hxwrtwvjgm .gt_super {
   font-size: 65%;
 }
 
-#pzuwbcdeai .gt_footnote_marks {
+#hxwrtwvjgm .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="pzuwbcdeai" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="hxwrtwvjgm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   <thead class="gt_header">
     <tr>
       <th colspan="5" class="gt_heading gt_title gt_font_normal" style="color: black; text-align: left; font-weight: bold;">How efficent was the Warriors offense?</th>
@@ -723,7 +721,7 @@ library(formattable)</code></pre>
     Threepointpct = sum(X3P.)) %&gt;%
   filter(Twopointpct &gt; 0.46 &amp; Threepointpct &lt; 0.43)</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;Season&#39;. You can override using the `.groups` argument.</code></pre>
-<p>The thing with this comparison, is to find the mean of both 2 point and 3 point percentages. I was able to do that here.</p>
+<p>This comparison, finds the mean of both 2 point and 3 point percentages. I was able to do that here.</p>
 <pre class="r"><code>warriorsscatter %&gt;%
   ungroup() %&gt;%
   summarise(
@@ -733,7 +731,7 @@ library(formattable)</code></pre>
 ##   Twopointpct Threepointpct
 ##         &lt;dbl&gt;         &lt;dbl&gt;
 ## 1       0.493         0.357</code></pre>
-<p>Then I was able to put that data into a scatterplot where I found a lot of teams that had really good shooting percentages. Looking at the Warriors roster, they had a lot of people that could shoot the ball. Curry,Thompson,Durant,Livingston and sometimes Green and I mean sometimes if he was feeling it, but only when he was feeling it…. But I wanted to see where the Warriors were.</p>
+<p>Then I was able to put that data into a scatter-plot where I found a lot of teams that had really good shooting percentages. Looking at the Warriors roster, they had a lot of people that could shoot the ball. Curry,Thompson, Durant, Livingston and sometimes Green if he was feeling it, but only when he was feeling it…. But I wanted to see where the Warriors were.</p>
 <pre class="r"><code>ggplot() +
   geom_point(
     data = warriorsscatter,
@@ -794,7 +792,7 @@ summary(fit)</code></pre>
 <p>From the data above, I was able to filter out the 2017 Warriors and what I saw was very crucial.</p>
 <pre class="r"><code>warriorsmovfilter &lt;- warriorsmov %&gt;%
   filter(Team == &quot;Golden State Warriors*&quot;, Season == &quot;2017&quot;)</code></pre>
-<p>Looking at this graph, we can see that the Warriors led the past NBA teams in offensive rating which came in at 115.6, which actually leads the NBA all together. And also led the past NBA teams in margin of victory. That came in at 11.63 which is defined as, their average win a night was 11 points. Which is truly absurd. This also led the NBA. They also did this without Durant for 19 games. This team was truly a unstoppable force.</p>
+<p>Looking at this graph, we can see that the Warriors led the past NBA teams in offensive rating which came in at 115.6, which actually leads the NBA all together. And also led the past NBA teams in margin of victory. That came in at 11.63. This statistic is their average margin of points in a win which was 11 points. Which is truly absurd. This also led the NBA. They also did this without Durant for 19 games. This team was truly a unstoppable force.</p>
 <pre class="r"><code>ggplot() + 
   geom_point(data = warriorsmov, aes(x=Offensiverating, y=Marginvictory), color=&quot;grey&quot;) +
   geom_smooth(data = warriorsmov, aes(x=Offensiverating, y=Marginvictory), method = &quot;lm&quot;) +
@@ -812,7 +810,7 @@ summary(fit)</code></pre>
     ) + labs(x= &quot;Offensive Rating&quot;, y=&quot;Margin of Victory&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2021/04/03/are-the-2017-golden-state-warriors-the-best-team-in-the-past-20-years/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-Now some NBA fans do not really care about regular season basketball and only care about the playoffs. Which is a funny thing because 2017 Warriors became the first team in NBA history to go 15-0 in playoffs before losing game 4 to the Cavaliers. They went on to win game 5 and the championship. Journalists have called this team the best ever. Which is still a tough thing to swallow, but know these stats now, I would not put it past this team to beat any of the Chicago Bulls teams with Micheal Jordan. But, for now, this team is the best team in the last 20 years.</p>
+Now some NBA fans do not really care about regular season basketball and only care about the playoffs. Which is a funny thing because 2017 Warriors became the first team in NBA history to go 15-0 in playoffs before losing game 4 to the Cavaliers. They went on to win game 5 and the championship. Journalists have called this team the best ever. Which is still a tough thing to swallow. However, these statistics possibly show that this team could possibly beat one of the most dominant basketball teams ever, Chicago Bulls teams of the 1990s with Micheal Jordan. But, for now, this team is the best team in the last 20 years.</p>
 
 
   <footer>
