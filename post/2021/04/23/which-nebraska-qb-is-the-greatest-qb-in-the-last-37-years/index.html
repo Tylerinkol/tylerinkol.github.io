@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Which Nebraska QB is the greatest QB in the last 37 years? - Tyler Rinkol&#39;s Website</title>
+    <meta property="og:title" content="Which Nebraska QB is the greatest QB in the last 37 years? - Tyler Rinkol&#39;s Website">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="With the spring game coming up, it’s getting me in the mood for Nebraska football. There was a lot of controversy last year about the quarterback position and who should start. The quarterback is the &amp;hellip;">
+      <meta property="og:description" content="With the spring game coming up, it’s getting me in the mood for Nebraska football. There was a lot of controversy last year about the quarterback position and who should start. The quarterback is the &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Tyler Rinkol&#39;s Website</a></h1>
+
+<p class="tagline">Tyler Rinkol&#39;s blog posts and projects</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Which Nebraska QB is the greatest QB in the last 37 years?</h1>
+
+<h3>Tyler Rinkol
+  /  2021-04-23</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+<script src="/post/2021/04/23/which-nebraska-qb-is-the-greatest-qb-in-the-last-37-years/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>With the spring game coming up, it’s getting me in the mood for Nebraska football. There was a lot of controversy last year about the quarterback position and who should start. The quarterback is the most important position on the field and is very important for Husker fans since the expectations are so high for each team every year. So I started to think: Who is greatest QB Nebraska has had in the last 37 years? Now, we’ve had Heisman trophy winners, record breakers and straight out ballers at the quarterback position. Let’s load in our libraries and see who the best Nebraska QB is.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggalt)
+library(ggrepel)</code></pre>
+<p>Now in order to see who the best Nebraska QB is, we have to take their stats that they had each season and put them into one dataset. That way, we can see how each QB compared to another Husker QB. Back then, Nebraska wasn’t seen as a passing team. We used to run the ball down the opponents throats until they stopped it. Which in that case, that was never the story because we’ve always had the best running and full backs that would find the open creases and find their way into the endzone. Let’s take a look at how well each Nebraska quarterback was able to put the ball in the endzone but able to take care of the ball.</p>
+<pre class="r"><code>NebraskaPassing &lt;- read_csv(&quot;Nebraska QB Passing.csv&quot;)</code></pre>
+<p>Like I stated above, Nebraska is more of a option team so I had to take the rushing stats for each starting Quarterback and put it into a dataset. Now I know that not every quarterback that Nebraska will have will be able to run the option or get away, but it’s almost a must-have because of our scheme. It is important that our quarterbacks have the ability to get away from pressure and take off at any second, but we will look at rushing stats later.</p>
+<pre class="r"><code>NebraskaRushing &lt;- read_csv(&quot;Nebraska QB Rushing.csv&quot;)</code></pre>
+<p>Wins are also very important in finding out who the goat is at something. Look at Tom Brady, all he does is win and is known as the Goat. So seeing which Nebraska quarterback led their teams to the most wins is very important.</p>
+<pre class="r"><code>NebraskaWins &lt;- read_csv(&quot;Nebraska Wins.csv&quot;)</code></pre>
+<p>Now in order to see how many touchdowns and interceptions each quarterback threw, I made sure to “group by” the quarterback. Meaning that if they played more than one season, then their season stats would be combined with one another. So in order to do this, I summarized the touchdowns and interceptions they threw. Now I also took the top ten Husker quarterbacks for a better understanding of how well these quarterbacks passed the ball.</p>
+<pre class="r"><code>TDInt &lt;- NebraskaPassing %&gt;%
+  group_by(Player) %&gt;%
+  summarise(
+    Touchdowns = sum(TD),
+    Interceptions= sum(Int)) %&gt;%
+  top_n(10)</code></pre>
+<pre><code>## Selecting by Interceptions</code></pre>
+<p>While looking at this dumbbell chart, it was very surprising to see Tommy Armstrong Jr. at the top of the leaderboard. I knew that he slinged the ball around a lot and was good at it but was very surprising to see him at the top. However,it was not surprising to see from the chart was that Armstrong threw the most interceptions out of the Husker QB’s. He was known for making bad throwing decisions and throwing into coverage, but hey sometimes it worked. Another person I was surprised to see was Taylor Martinez. Now he was really good at the option and escaping the pressure in the pocket. But never really thought of him as a good passer. Even with his throwing motion, it looked really awkward to even watch, but hey, if you throw for touchdowns it works out. Finally, when looking at this graph, the red dots represents the number of interceptions they threw during their tenured at Nebraska. And the Green dot represents the number of touchdowns they threw during their Nebraska career.</p>
+<pre class="r"><code>ggplot() +
+  geom_dumbbell(
+      data=TDInt, 
+    aes(y=reorder(Player, Touchdowns), x=Touchdowns, xend=Interceptions),
+    size = 1,
+    color = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;red&quot;) + 
+  theme_minimal() +
+  labs(title=&quot;Which Nebraska QB had the most touchdowns and interceptions?&quot;,x=&quot;Interceptions &amp; Touchdowns&quot;,y=&quot;Quarterback&quot;, subtitle=&quot;Tommy Armstrong knew how to get the ball in the endzone&quot;, caption=&quot;Source: Sports Reference | By Tyler Rinkol&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="/post/2021/04/23/which-nebraska-qb-is-the-greatest-qb-in-the-last-37-years/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+Now in order to be a good passing quarterback, you need to have a good completion percentage and be able to get the ball down field. So I wanted to see what was each quarterback’s mean passing percentage and the total yards they threw for during their career. Now I was able to do this by summarizing the passing percentage by finding the mean of their seasons. Also I was able to summarize the sum of the total yards that they threw for.</p>
+<pre class="r"><code>PassingPCT &lt;- NebraskaPassing %&gt;%
+  group_by(Player) %&gt;%
+   summarise(
+  PassingCompletion= mean(Pct),  
+     TotalYards= sum(Yds)
+  ) </code></pre>
+<p>Now I wanted to filter out the best possible quarterbacks with their percentages and total yards. So I have always thought if a quarterback has a completion percentage of 60% or higher, they know how to make good decisions and help their team move the ball down field. With the total yards, I know that 5000 yards was a bit of a stretch but was very surprised to see that we only had 5 quarterbacks that have passed for over 5000 yards. Now due to the 60% completion percentage, there were only 3 quarterbacks that fit the frame.</p>
+<pre class="r"><code>BestPasser &lt;- PassingPCT %&gt;%
+ group_by(Player) %&gt;%
+  filter(
+    PassingCompletion &gt; 60 &amp; TotalYards &gt; 5000)</code></pre>
+<p>Now looking at this scatterplot, the most recent QB’s took the stage with filtered in place. Taylor Martinez was the first one in the group was a 60% completion percentage and just under 7500 yards passing. Now like I stated earlier, Martinez knew how to escape from pressure and defenses actually wanted Martinez to throw due to this weird throwing motion and the ability to making bad decisions from time to time, but this proved his case even more about being the best Nebraska quarterback in the last 37 years. Adrian Martinez is also up there which is very surprising knowing that he has only played 3 seasons. Adrian has the ability to throw the ball down field and make plays if he wants too. If we can go back to the freshman year Adrian Martinez, then we should be able to go to a bowl game.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=PassingPCT, aes(x=PassingCompletion, y=TotalYards)) +
+  geom_point(data=BestPasser, aes(x=PassingCompletion, y=TotalYards), color=&quot;red&quot;) +
+  geom_text_repel(
+    data=BestPasser, 
+    aes(x=PassingCompletion, y=TotalYards, label=Player)
+  ) +
+  labs(title=&quot;Which Nebraska QB had the best Passing Completion and Total Yards?&quot;, subtitle=&quot;The most recent Nebraska QB&#39;s stand out&quot;, caption=&quot;Source: Sports Reference | By Tyler Rinkol&quot;)  + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="/post/2021/04/23/which-nebraska-qb-is-the-greatest-qb-in-the-last-37-years/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+Like I stated above, Nebraska is more of a running team so I wanted to see how each Quarterback compared to each other. Now this involves escaping the pocket and any designed runs. So I wanted to see how many yards they averaged per run, how many yards they accumulated while playing at Nebraska and how many rushing touchdowns they had.</p>
+<pre class="r"><code>RushingYds &lt;- NebraskaRushing %&gt;%
+  group_by(Player) %&gt;%
+  summarise(
+    RushingAvg= mean(Avg),
+    TotalYards= sum(Yds),
+    Touchdowns= sum(TD)) </code></pre>
+<p>To find the better running quarterbacks for Nebraska, I filtered their average rushing yards per attempt. I also filtered the total yards that they rushed during their time at Nebraska. I thought that greater than 1800 yards was a good number to set the bar at. And finally, I decided to set the bar total rushing touchdowns at 15.</p>
+<pre class="r"><code>BetterRushing &lt;- RushingYds %&gt;%
+  group_by(Player) %&gt;%
+  filter(
+    RushingAvg &gt; 1 &amp; TotalYards &gt; 1800  &amp; Touchdowns &gt; 15)</code></pre>
+<p>Now what I wanted to see was the total mean of the quarterbacks. So I made sure to summarize the mean of the Rushing Mean average and also found the mean of the Total Yards.</p>
+<pre class="r"><code>RushingYds %&gt;%
+  ungroup() %&gt;%
+  summarise(
+    RushingAvgMean= mean(RushingAvg),
+    TotalYardsMean= mean(TotalYards))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   RushingAvgMean TotalYardsMean
+##            &lt;dbl&gt;          &lt;dbl&gt;
+## 1           3.52            983</code></pre>
+<p>Looking at this bubble chart, it is no surprise that Eric crouch led the pact with his total yards rushing and the amount of touchdowns that he scored. Looking at the rest of the names, I see that they are mostly running quarterbacks. Jammal Lord was the typical Nebraska option quarterback which had over 2000 yards rushing and had 20 touchdowns total. Now, I’m not surprised to see Taylor Martinez second in this chart. He fell under 3000 yards rushing and had over 40 touchdowns which is an incredible feat.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=RushingYds, 
+    aes(x=RushingAvg, y=TotalYards, size=Touchdowns), 
+    color=&quot;grey&quot;, 
+    alpha=.5) + 
+  geom_point(
+    data=BetterRushing, 
+    aes(x=RushingAvg, y=TotalYards, size=Touchdowns), 
+    color=&quot;red&quot;) + 
+  geom_vline(xintercept = 3.520833) + 
+  geom_hline(yintercept = 983) + 
+  geom_text_repel(
+    data=BetterRushing, 
+    aes(x=RushingAvg, y=TotalYards, label=Player)
+    ) +
+  labs(title=&quot;Who was the better Option Quarterback for Nebraska?&quot;, subtitle=&quot;Taylor Martniez agian in second place. Confirmed Nebraska QB goat?&quot;, caption=&quot;Source: Sports Reference | By Tyler Rinkol&quot;)  + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank())</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2021/04/23/which-nebraska-qb-is-the-greatest-qb-in-the-last-37-years/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+For the final test, I wanted to see how many wins each quarterback had at Nebraska. So I was able to go on sports reference and went through each season and credited each quarterback with a win or loss depending if they played. So I made it into a csv file and brought it inside R. I then summarized the wins and losses so I could put them in a dumbbell chart again. Then I chose the top ten quarterbacks with the most wins. Now I know that some quarterbacks only played one season but in order to find the goat, wins have to come into the conversations.</p>
+<pre class="r"><code>QBWins &lt;- NebraskaWins %&gt;%
+  group_by(Quarterback) %&gt;%
+  summarise(
+    TotalWins = sum(Wins),
+    TotalLosses= sum(Losses)
+  ) %&gt;%
+  filter(TotalWins &gt;15)</code></pre>
+<p>Now looking at this dumbbell chart, you are starstruck by the number of wins Eric Crouch accumulated here at Nebraska. Having 40+ wins is crazy. But as we look more at the graph, we see who is in second place and it’s Taylor Martinez. He had about 35 wins with the Nebraska program and led the Huskers to one Big Ten title game, something we have not seen with Adrian Martinez yet. Finally, when looking at the graph, the red dots represent total losses and the green dots represent total wins they accumulated.</p>
+<pre class="r"><code>ggplot() +
+  geom_dumbbell(
+      data=QBWins, 
+    aes(y=reorder(Quarterback, TotalWins), x=TotalWins, xend=TotalLosses),
+    size = 1,
+    color = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;red&quot;) + 
+  theme_minimal() +
+  labs(title=&quot;Which Nebraska QB had the most Wins and Losses?&quot;,x=&quot;Losses &amp; Wins&quot;,y=&quot;Quarterback&quot;, subtitle=&quot;Eric Crouch won a lot of games for Nebraska.&quot;, caption=&quot;Source: Sports Reference | By Tyler Rinkol&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 14, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank())</code></pre>
+<p><img src="/post/2021/04/23/which-nebraska-qb-is-the-greatest-qb-in-the-last-37-years/index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+So lets’ go back to the question I asked earlier: “Who is the best Nebraska QB in the last 37 years”? Now, it would be hard to not look at Eric Crouch. He won the Heisman, took Nebraska to the Rose Bowl Game against Miami, something we have not seen since then. He was special at Nebraska. Just look at his wins and his rushing stats. He led the pack when it came to those things, but was down the list when it came to passing. There was always someone just short of the leaderboard every single graph and chart. That quarterback was Taylor Martinez. He threw for 50 touchdowns and just below 30 interceptions. He was at the top of the list with passing yards and completion percentage. Taylor a great runner/scrambler, just short of 3000 yards rushing with also 40 rushing touchdowns and finally, had over 30 wins with the program. So judging by this data, I would have to say that Taylor Martinez was the best Husker quarterback in the past 37 years!</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2021/04/03/are-the-2017-golden-state-warriors-the-best-team-in-the-past-20-years/">Are the 2017 Golden State Warriors the best team in the past 20 years?</a></span>
+  <span class="nav-next"></span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://yihui.name">Yihui Xie</a> 2017 | <a href="https://github.com/yihui">Github</a> | <a href="https://twitter.com/xieyihui">Twitter</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
